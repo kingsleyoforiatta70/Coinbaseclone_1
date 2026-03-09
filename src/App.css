@@ -13,3 +13,29 @@
 @utility animate-spin-slow {
   animation: spin-slow infinite 20s linear;
 }
+
+@keyframes float-up-down {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px 5px rgba(0, 82, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px 10px rgba(0, 82, 255, 0.7);
+  }
+}
+
+@utility animate-float {
+  animation: float-up-down 4s ease-in-out infinite;
+}
+
+@utility animate-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}

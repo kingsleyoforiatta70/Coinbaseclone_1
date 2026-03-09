@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import SplashScreen from "./components/common/SplashScreen";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
@@ -18,8 +20,12 @@ import { AdvancedPortfolio, AdvancedOrders, AdvancedReferral } from "./pages/das
 import Watchlist from "./pages/dashboard/Watchlist";
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
-    <Routes>
+    <>
+      {showSplash ? <SplashScreen onFinish={() => setShowSplash(false)} /> : null}
+      <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="explore" element={<Explore />} />
@@ -45,7 +51,8 @@ function App() {
       <Route path="advanced/portfolio" element={<AdvancedPortfolio />} />
       <Route path="advanced/orders" element={<AdvancedOrders />} />
       <Route path="advanced/referral" element={<AdvancedReferral />} />
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

@@ -21,10 +21,18 @@ function Home() {
       <section className="relative overflow-hidden bg-slate-50 dark:bg-slate-800/50 pb-16 pt-12">
         <Container className="grid items-center gap-16 lg:grid-cols-[1fr_1.1fr]">
           <div className="flex flex-col items-start gap-4">
-            <div className="w-full max-w-md rounded-[48px] bg-[#0b2fbf] p-6 shadow-2xl">
-              <div className="rounded-[40px] bg-[#1f44d1] p-4">
-                <div className="rounded-[32px] bg-white dark:bg-[#0b0f19] p-6 shadow-lg">
-                  <img src={heroIllustration} alt="Coinbase app preview" className="w-full" />
+            <div className="relative w-full max-w-md animate-float">
+              {/* Animated glowing background */}
+              <div className="absolute -inset-1 rounded-[48px] bg-gradient-to-r from-blue-600 to-indigo-600 opacity-70 blur-xl animate-glow"></div>
+              
+              <div className="relative w-full rounded-[48px] bg-[#0b2fbf] p-6 shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
+                <div className="rounded-[40px] bg-[#1f44d1] p-4 relative overflow-hidden">
+                  {/* Sweep light effect */}
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-[2s] ease-in-out hover:translate-x-full z-10 skew-x-12" />
+                  
+                  <div className="rounded-[32px] bg-white dark:bg-[#0b0f19] p-6 shadow-lg relative z-0">
+                    <img src={heroIllustration} alt="Coinbase app preview" className="w-full relative z-10" />
+                  </div>
                 </div>
               </div>
             </div>
