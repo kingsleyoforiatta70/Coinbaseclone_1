@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Container from "../common/Container";
 import Button from "../common/Button";
 import ThemeToggle from "../common/ThemeToggle";
 import { navLinks, type NavLinkItem } from "../../data/navLinks.ts";
 import logoMark from "../../assets/logo.svg";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
   const [showIndividuals, setShowIndividuals] = useState(false);
   const [showBusiness, setShowBusiness] = useState(false);
   const [showInstitutions, setShowInstitutions] = useState(false);
@@ -535,17 +543,38 @@ function Navbar() {
               />
             </svg>
           </button>
-          <Button
-            as={Link}
-            to="/signin"
-            variant="ghost"
-            className="text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:text-white"
-          >
-            Sign in
-          </Button>
-          <Button as={Link} to="/signup" variant="primary" className="px-4 py-2 text-sm">
-            Sign up
-          </Button>
+          {user ? (
+            <>
+              <Link
+                to="/profile"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0052ff] text-sm font-bold text-white"
+                title={user.name}
+              >
+                {user.name[0].toUpperCase()}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:text-white"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <Button
+                as={Link}
+                to="/signin"
+                variant="ghost"
+                className="text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:text-white"
+              >
+                Sign in
+              </Button>
+              <Button as={Link} to="/signup" variant="primary" className="px-4 py-2 text-sm">
+                Sign up
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -594,12 +623,25 @@ function Navbar() {
               <div className="flex justify-center pb-2">
                 <ThemeToggle />
               </div>
-              <Button as={Link} to="/signin" variant="ghost">
-                Sign in
-              </Button>
-              <Button as={Link} to="/signup" variant="primary">
-                Sign up
-              </Button>
+              {user ? (
+                <>
+                  <Button as={Link} to="/profile" variant="ghost" onClick={() => setOpen(false)}>
+                    My Profile
+                  </Button>
+                  <Button variant="primary" onClick={handleLogout}>
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button as={Link} to="/signin" variant="ghost" onClick={() => setOpen(false)}>
+                    Sign in
+                  </Button>
+                  <Button as={Link} to="/signup" variant="primary" onClick={() => setOpen(false)}>
+                    Sign up
+                  </Button>
+                </>
+              )}
             </div>
           </Container>
         </div>

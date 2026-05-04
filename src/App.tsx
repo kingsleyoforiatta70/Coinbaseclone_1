@@ -8,6 +8,7 @@ import AssetDetail from "./pages/AssetDetail";
 import Learn from "./pages/Learn";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 import DashboardHome from "./pages/dashboard/Home";
 import Trade from "./pages/dashboard/Trade";
 import Lend from "./pages/dashboard/Lend";
@@ -26,31 +27,32 @@ function App() {
     <>
       {showSplash ? <SplashScreen onFinish={() => setShowSplash(false)} /> : null}
       <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="explore" element={<Explore />} />
-        <Route path="assets/:assetId" element={<AssetDetail />} />
-        <Route path="learn" element={<Learn />} />
-        <Route path="signin" element={<SignIn />} />
-        <Route path="signup" element={<SignUp />} />
-      </Route>
-      <Route path="home" element={<DashboardHome />} />
-      <Route path="trade" element={<Trade />} />
-      <Route path="lend" element={<Lend />} />
-      <Route path="transactions" element={<Transactions />} />
-      <Route path="watchlist" element={<Watchlist />} />
-      <Route path="asset/:id" element={<DashboardAssetDetail />} />
-      <Route path="token-sales" element={<TokenSales />} />
-      <Route path="cash" element={<Cash />} />
-      <Route path="crypto" element={<Crypto />} />
-      <Route path="onchain-verify" element={<OnchainVerify />} />
-      <Route path="advanced-api" element={<AdvancedAPI />} />
-      <Route path="advanced" element={<Navigate to="/advanced/spot" replace />} />
-      <Route path="advanced/spot" element={<AdvancedSpot />} />
-      <Route path="advanced/derivatives" element={<AdvancedSpot />} />
-      <Route path="advanced/portfolio" element={<AdvancedPortfolio />} />
-      <Route path="advanced/orders" element={<AdvancedOrders />} />
-      <Route path="advanced/referral" element={<AdvancedReferral />} />
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="explore" element={<Explore />} />
+          <Route path="assets/:assetId" element={<AssetDetail />} />
+          <Route path="learn" element={<Learn />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+        <Route path="home" element={<DashboardHome />} />
+        <Route path="trade" element={<Trade />} />
+        <Route path="lend" element={<Lend />} />
+        <Route path="transactions" element={<Transactions />} />
+        <Route path="watchlist" element={<Watchlist />} />
+        <Route path="asset/:id" element={<DashboardAssetDetail />} />
+        <Route path="token-sales" element={<TokenSales />} />
+        <Route path="cash" element={<Cash />} />
+        <Route path="crypto" element={<Crypto />} />
+        <Route path="onchain-verify" element={<OnchainVerify />} />
+        <Route path="advanced-api" element={<AdvancedAPI />} />
+        <Route path="advanced" element={<Navigate to="/advanced/spot" replace />} />
+        <Route path="advanced/spot" element={<AdvancedSpot />} />
+        <Route path="advanced/derivatives" element={<AdvancedSpot />} />
+        <Route path="advanced/portfolio" element={<AdvancedPortfolio />} />
+        <Route path="advanced/orders" element={<AdvancedOrders />} />
+        <Route path="advanced/referral" element={<AdvancedReferral />} />
       </Routes>
     </>
   );

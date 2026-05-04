@@ -2,18 +2,28 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../components/common/Container";
 import Button from "../components/common/Button";
-import { setProfile } from "../utils/profile";
+import { useAuth } from "../context/AuthContext";
 
 function SignIn() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (email) {
-      setProfile({ email });
+    setError("");
+    setLoading(true);
+    try {
+      await login(email, password);
+      navigate("/home");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign in failed.");
+    } finally {
+      setLoading(false);
     }
-    navigate("/home");
   };
 
   return (
@@ -26,15 +36,21 @@ function SignIn() {
               Sign in to your Coinbase account.
             </p>
           </div>
+          {error ? (
+            <p className="rounded-xl bg-rose-50 dark:bg-rose-900/20 px-4 py-3 text-sm text-rose-600 dark:text-rose-400">
+              {error}
+            </p>
+          ) : null}
           <form className="space-y-4" onSubmit={handleSubmit}>
             <label className="block text-sm text-slate-600 dark:text-slate-300">
               Email
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="mt-2 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 dark:text-slate-400"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-500"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <label className="block text-sm text-slate-600 dark:text-slate-300">
@@ -42,18 +58,14 @@ function SignIn() {
               <input
                 type="password"
                 placeholder="••••••••"
-                className="mt-2 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 dark:text-slate-400"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </label>
-            <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" className="h-4 w-4 rounded border-slate-300 dark:border-slate-600" />
-                Remember me
-              </label>
-              <span>Forgot password?</span>
-            </div>
-            <Button className="w-full" variant="primary" type="submit">
-              Sign in
+            <Button className="w-full" variant="primary" type="submit" disabled={loading}>
+              {loading ? "Signing in…" : "Sign in"}
             </Button>
           </form>
           <p className="text-center text-sm text-slate-500 dark:text-slate-400">
